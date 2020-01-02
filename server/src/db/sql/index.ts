@@ -3,8 +3,26 @@ import path from "path";
 
 export let users = {
   create: sql("./users/create.sql"),
-  add: sql("./users/add.sql"),
-  drop: sql("./users/drop.sql")
+  add: sql("./users/add.sql")
+};
+
+export let articles = {
+  create: sql("./articles/create.sql"),
+  add: sql("./articles/add.sql")
+};
+
+export let comments = {
+  create: sql("./comments/create.sql"),
+  add: sql("./comments/add.sql")
+};
+
+export let favorites = {
+  create: sql("./favorites/create.sql"),
+  add: sql("./favorites/add.sql")
+};
+export let follows = {
+  create: sql("./follows/create.sql"),
+  add: sql("./follows/add.sql")
 };
 
 function sql(file: string): QueryFile {

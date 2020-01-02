@@ -1,24 +1,44 @@
 import "reflect-metadata";
 import express from "express";
 import { ApolloServer, gql } from "apollo-server-express";
-import { db, pgp } from "./db";
-import { users } from "./db/sql";
+import { db, pgp, users, articles, comments, favorites, follows } from "./db";
 
 let typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
   type User {
     username: String
     email: String
     bio: String
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Article {
+    slug: String
+    title: String
+    description: String
+    body: String
+    tagList: [String]
+    createdAt: String
+    updatedAt: String
+    favoritesCount: Int
+    user_id: Int
+  }
+
   type Query {
     users: [User]
+  }
+
+  type Mutation {
+    addUser(username: String, email: String, bio: String): User
+    addArticle(
+      slug: String
+      title: String
+      description: String
+      body: String
+      tagList: [String]
+      createdAt: String
+      updatedAt: String
+      favoritesCount: Int
+      user_id: Int
+    ): Article
   }
 `;
 
@@ -27,11 +47,42 @@ let resolvers = {
     users: async () => {
       return await db.any("SELECT * FROM users");
     }
+  },
+  Mutation: {
+    addUser: async (parent: any, args: any) => {
+      await db.any(users.add, [args.username, args.email, args.bio]);
+      return { username: args.username, email: args.email, bio: args.bio };
+    },
+    addArticle: async (parent: any, args: any) => {
+      await db.any(articles.add, [
+        args.slug,
+        args.title,
+        args.description,
+        args.body,
+        args.tagList,
+        args.createdAt,
+        args.updatedAt,
+        args.favoritesCount,
+        args.user_id
+      ]);
+      return {
+        slug: args.slug,
+        title: args.title,
+        description: args.description,
+        body: args.body,
+        tagList: args.tagList,
+        createdAt: args.createdAt,
+        updatedAt: args.updatedAt,
+        favoritesCount: args.favoritesCount,
+        user_id: args.user_id
+      };
+    }
   }
 };
 
 (async () => {
-  console.log(await db.any("SELECT * FROM users"));
+  await db.any(favorites.create);
+  await db.any(follows.create);
   let app = express();
 
   let apolloServer = new ApolloServer({ typeDefs, resolvers });

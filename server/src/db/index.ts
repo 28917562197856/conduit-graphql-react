@@ -1,6 +1,7 @@
 import pgPromise from "pg-promise";
+import { users, articles, comments, favorites, follows } from "./sql";
 
-export let pgp = pgPromise();
+let pgp = pgPromise();
 
 let dbConfig = {
   host: "localhost",
@@ -9,4 +10,6 @@ let dbConfig = {
   user: "postgres"
 };
 
-export let db = pgp(dbConfig);
+let db = pgp(dbConfig);
+
+export { pgp, db, users, articles, comments, favorites, follows };
