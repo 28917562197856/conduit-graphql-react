@@ -2,10 +2,11 @@ import { gql } from "apollo-server-express";
 
 export let typeDefs = gql`
   type User {
-    username: String
-    email: String
-    bio: String
-    image: String
+    email: String!
+    token: String
+    username: String!
+    bio: String!
+    image: String!
   }
 
   type Article {
@@ -30,20 +31,28 @@ export let typeDefs = gql`
 
   type Query {
     users: [User]
+    hi: String
   }
 
   type Mutation {
-    addUser(username: String, email: String, bio: String): User
+    addUser(
+      username: String!
+      email: String!
+      password: String!
+      bio: String!
+      image: String!
+    ): User
+    login(email: String!, password: String!): User
     addArticle(
-      slug: String
-      title: String
-      description: String
-      body: String
+      slug: String!
+      title: String!
+      description: String!
+      body: String!
       tagList: [String]
       createdAt: String
       updatedAt: String
       favoritesCount: Int
-      user_id: Int
+      user_id: Int!
     ): Article
   }
 `;

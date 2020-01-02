@@ -3,7 +3,8 @@ import path from "path";
 
 export let users = {
   create: sql("./users/create.sql"),
-  add: sql("./users/add.sql")
+  add: sql("./users/add.sql"),
+  find: sql("./users/find.sql")
 };
 
 export let articles = {

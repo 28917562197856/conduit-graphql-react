@@ -1,2 +1,8 @@
-INSERT INTO users(username, email, bio, image)
-VALUES($1, $2, $3, $4) RETURNING *
+INSERT INTO users(
+    username,
+    email,
+    password,
+    bio,
+    image
+  )
+VALUES($1, $2, $3, $4, $5) RETURNING *

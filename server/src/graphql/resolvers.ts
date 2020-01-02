@@ -1,45 +1,57 @@
 import { db, sql } from "../db";
+import bcrypt from "bcrypt";
+import { newAccessToken, newRefreshToken } from "../auth";
+import { IResolvers, AuthenticationError } from "apollo-server-express";
 
 async function users() {
+  console.log("TEST");
   return await db.any("SELECT * FROM users");
 }
 
 async function addUser(parent: any, args: any) {
-  await db.one(sql.users.add, [args.username, args.email, args.bio]);
-  return { username: args.username, email: args.email, bio: args.bio };
+  let hash = await bcrypt.hash(args.password, 12);
+
+  let user = await db.one(sql.users.add, [
+    args.username,
+    args.email,
+    hash,
+    args.bio,
+    args.image
+  ]);
+  return user;
 }
 
-async function addArticle(parent: any, args: any) {
-  await db.one(sql.articles.add, [
-    args.slug,
-    args.title,
-    args.description,
-    args.body,
-    args.tagList,
-    args.createdAt,
-    args.updatedAt,
-    args.favoritesCount,
-    args.user_id
-  ]);
+async function login(_: any, args: any, context: any) {
+  let user = await db.one(sql.users.find, args.email);
+  let valid = await bcrypt.compare(args.password, user.password);
+  if (!valid) throw new Error("Invalid password");
+
+  context.res.cookie("jid", newRefreshToken(user), { httpOnly: true });
+
   return {
-    slug: args.slug,
-    title: args.title,
-    description: args.description,
-    body: args.body,
-    tagList: args.tagList,
-    createdAt: args.createdAt,
-    updatedAt: args.updatedAt,
-    favoritesCount: args.favoritesCount,
-    user_id: args.user_id
+    ...user,
+    token: newAccessToken(user)
   };
 }
 
-export let resolvers = {
+async function addArticle(parent: any, args: any) {
+  let article = await db.one(sql.articles.add, Object.values(args));
+  return article;
+}
+
+async function hi(parent: any, args: any, context: any) {
+  if (!context.user) throw new AuthenticationError("Not authorized");
+  return `your user id is: ${context.user.userId}`;
+}
+
+export let resolvers: IResolvers = {
   Query: {
-    users
+    users,
+    hi
   },
   Mutation: {
     addUser,
-    addArticle
+    addArticle,
+    login
   }
 };
