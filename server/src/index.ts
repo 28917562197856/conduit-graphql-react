@@ -9,6 +9,17 @@ import cookieParser from "cookie-parser";
 import { getUser, newAccessToken, newRefreshToken } from "./auth";
 import { verify } from "jsonwebtoken";
 import { db } from "./db";
+import e from "express";
+
+type User = {
+  userId: number;
+};
+
+export type Context = {
+  req: e.Request;
+  res: e.Response;
+  user?: User;
+};
 
 (async () => {
   let app = express();

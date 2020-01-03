@@ -5,8 +5,8 @@ export let typeDefs = gql`
     email: String!
     token: String
     username: String!
-    bio: String!
-    image: String!
+    bio: String
+    image: String
   }
 
   type Article {
@@ -35,13 +35,7 @@ export let typeDefs = gql`
   }
 
   type Mutation {
-    addUser(
-      username: String!
-      email: String!
-      password: String!
-      bio: String!
-      image: String!
-    ): User
+    register(username: String!, email: String!, password: String!): User
     login(email: String!, password: String!): User
     addArticle(
       slug: String!
