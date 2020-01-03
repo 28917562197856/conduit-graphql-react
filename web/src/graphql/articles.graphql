@@ -1,0 +1,10 @@
+query getArticles {
+  getArticles {
+    user_id
+    createdat
+    title
+    description
+    slug
+    taglist
+  }
+}

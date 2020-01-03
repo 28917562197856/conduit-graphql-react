@@ -18,10 +18,10 @@ export type Article = {
   title?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   body?: Maybe<Scalars['String']>,
-  tagList?: Maybe<Array<Maybe<Scalars['String']>>>,
-  createdAt?: Maybe<Scalars['String']>,
-  updatedAt?: Maybe<Scalars['String']>,
-  favoritesCount?: Maybe<Scalars['Int']>,
+  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
+  createdat?: Maybe<Scalars['String']>,
+  updatedat?: Maybe<Scalars['String']>,
+  favoritescount?: Maybe<Scalars['Int']>,
   user_id?: Maybe<Scalars['Int']>,
 };
 
@@ -65,10 +65,10 @@ export type MutationAddArticleArgs = {
   title: Scalars['String'],
   description: Scalars['String'],
   body: Scalars['String'],
-  tagList?: Maybe<Array<Maybe<Scalars['String']>>>,
-  createdAt?: Maybe<Scalars['String']>,
-  updatedAt?: Maybe<Scalars['String']>,
-  favoritesCount?: Maybe<Scalars['Int']>,
+  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
+  createdat?: Maybe<Scalars['String']>,
+  updatedat?: Maybe<Scalars['String']>,
+  favoritescount?: Maybe<Scalars['Int']>,
   user_id: Scalars['Int']
 };
 
@@ -76,6 +76,16 @@ export type Query = {
    __typename?: 'Query',
   users?: Maybe<Array<Maybe<User>>>,
   hi?: Maybe<Scalars['String']>,
+  getArticles?: Maybe<Array<Maybe<Article>>>,
+};
+
+
+export type QueryGetArticlesArgs = {
+  tag?: Maybe<Scalars['String']>,
+  author?: Maybe<Scalars['String']>,
+  favorited?: Maybe<Scalars['String']>,
+  limit?: Maybe<Scalars['Int']>,
+  offset?: Maybe<Scalars['Int']>
 };
 
 
@@ -163,9 +173,9 @@ export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
   User: ResolverTypeWrapper<User>,
   String: ResolverTypeWrapper<Scalars['String']>,
-  Mutation: ResolverTypeWrapper<{}>,
   Int: ResolverTypeWrapper<Scalars['Int']>,
   Article: ResolverTypeWrapper<Article>,
+  Mutation: ResolverTypeWrapper<{}>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   CacheControlScope: CacheControlScope,
   Comment: ResolverTypeWrapper<Comment>,
@@ -177,9 +187,9 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {},
   User: User,
   String: Scalars['String'],
-  Mutation: {},
   Int: Scalars['Int'],
   Article: Article,
+  Mutation: {},
   Boolean: Scalars['Boolean'],
   CacheControlScope: CacheControlScope,
   Comment: Comment,
@@ -194,10 +204,10 @@ export type ArticleResolvers<ContextType = any, ParentType extends ResolversPare
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  tagList?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  favoritesCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  taglist?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  createdat?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  updatedat?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  favoritescount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   user_id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
 }>;
 
@@ -218,6 +228,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>,
   hi?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  getArticles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Article']>>>, ParentType, ContextType, QueryGetArticlesArgs>,
 }>;
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {

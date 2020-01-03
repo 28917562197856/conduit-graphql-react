@@ -14,16 +14,16 @@ export let typeDefs = gql`
     title: String
     description: String
     body: String
-    tagList: [String]
-    createdAt: String
-    updatedAt: String
-    favoritesCount: Int
+    taglist: [String]
+    createdat: String
+    updatedat: String
+    favoritescount: Int
     user_id: Int
   }
 
   type Comment {
-    createdAt: String
-    updatedAt: String
+    createdat: String
+    updatedat: String
     body: String
     author_id: Int
     article_id: Int
@@ -32,6 +32,13 @@ export let typeDefs = gql`
   type Query {
     users: [User]
     hi: String
+    getArticles(
+      tag: String
+      author: String
+      favorited: String
+      limit: Int
+      offset: Int
+    ): [Article]
   }
 
   type Mutation {
@@ -42,10 +49,10 @@ export let typeDefs = gql`
       title: String!
       description: String!
       body: String!
-      tagList: [String]
-      createdAt: String
-      updatedAt: String
-      favoritesCount: Int
+      taglist: [String]
+      createdat: String
+      updatedat: String
+      favoritescount: Int
       user_id: Int!
     ): Article
   }

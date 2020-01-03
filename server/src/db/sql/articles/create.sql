@@ -4,7 +4,7 @@ CREATE TABLE articles (
   title text NOT NULL,
   description text NOT NULL,
   body text NOT NULL,
-  tagList text [],
+  taglist text [],
   createdAt date NOT NULL,
   updatedAt date NOT NULL,
   favoritesCount int NOT NULL,

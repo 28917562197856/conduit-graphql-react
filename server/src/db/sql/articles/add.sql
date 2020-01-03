@@ -3,7 +3,7 @@ INSERT INTO articles(
     title,
     description,
     body,
-    tagList,
+    taglist,
     createdAt,
     updatedAt,
     favoritesCount,

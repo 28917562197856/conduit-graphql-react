@@ -19,10 +19,10 @@ export type Article = {
   title?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   body?: Maybe<Scalars['String']>,
-  tagList?: Maybe<Array<Maybe<Scalars['String']>>>,
-  createdAt?: Maybe<Scalars['String']>,
-  updatedAt?: Maybe<Scalars['String']>,
-  favoritesCount?: Maybe<Scalars['Int']>,
+  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
+  createdat?: Maybe<Scalars['String']>,
+  updatedat?: Maybe<Scalars['String']>,
+  favoritescount?: Maybe<Scalars['Int']>,
   user_id?: Maybe<Scalars['Int']>,
 };
 
@@ -33,8 +33,8 @@ export enum CacheControlScope {
 
 export type Comment = {
    __typename?: 'Comment',
-  createdAt?: Maybe<Scalars['String']>,
-  updatedAt?: Maybe<Scalars['String']>,
+  createdat?: Maybe<Scalars['String']>,
+  updatedat?: Maybe<Scalars['String']>,
   body?: Maybe<Scalars['String']>,
   author_id?: Maybe<Scalars['Int']>,
   article_id?: Maybe<Scalars['Int']>,
@@ -66,10 +66,10 @@ export type MutationAddArticleArgs = {
   title: Scalars['String'],
   description: Scalars['String'],
   body: Scalars['String'],
-  tagList?: Maybe<Array<Maybe<Scalars['String']>>>,
-  createdAt?: Maybe<Scalars['String']>,
-  updatedAt?: Maybe<Scalars['String']>,
-  favoritesCount?: Maybe<Scalars['Int']>,
+  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
+  createdat?: Maybe<Scalars['String']>,
+  updatedat?: Maybe<Scalars['String']>,
+  favoritescount?: Maybe<Scalars['Int']>,
   user_id: Scalars['Int']
 };
 
@@ -77,6 +77,16 @@ export type Query = {
    __typename?: 'Query',
   users?: Maybe<Array<Maybe<User>>>,
   hi?: Maybe<Scalars['String']>,
+  getArticles?: Maybe<Array<Maybe<Article>>>,
+};
+
+
+export type QueryGetArticlesArgs = {
+  tag?: Maybe<Scalars['String']>,
+  author?: Maybe<Scalars['String']>,
+  favorited?: Maybe<Scalars['String']>,
+  limit?: Maybe<Scalars['Int']>,
+  offset?: Maybe<Scalars['Int']>
 };
 
 
@@ -88,6 +98,17 @@ export type User = {
   bio?: Maybe<Scalars['String']>,
   image?: Maybe<Scalars['String']>,
 };
+
+export type GetArticlesQueryVariables = {};
+
+
+export type GetArticlesQuery = (
+  { __typename?: 'Query' }
+  & { getArticles: Maybe<Array<Maybe<(
+    { __typename?: 'Article' }
+    & Pick<Article, 'user_id' | 'createdat' | 'title' | 'description' | 'slug' | 'taglist'>
+  )>>> }
+);
 
 export type UsersQueryVariables = {};
 
@@ -101,6 +122,43 @@ export type UsersQuery = (
 );
 
 
+export const GetArticlesDocument = gql`
+    query getArticles {
+  getArticles {
+    user_id
+    createdat
+    title
+    description
+    slug
+    taglist
+  }
+}
+    `;
+
+/**
+ * __useGetArticlesQuery__
+ *
+ * To run a query within a React component, call `useGetArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetArticlesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetArticlesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetArticlesQuery, GetArticlesQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetArticlesQuery, GetArticlesQueryVariables>(GetArticlesDocument, baseOptions);
+      }
+export function useGetArticlesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetArticlesQuery, GetArticlesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetArticlesQuery, GetArticlesQueryVariables>(GetArticlesDocument, baseOptions);
+        }
+export type GetArticlesQueryHookResult = ReturnType<typeof useGetArticlesQuery>;
+export type GetArticlesLazyQueryHookResult = ReturnType<typeof useGetArticlesLazyQuery>;
+export type GetArticlesQueryResult = ApolloReactCommon.QueryResult<GetArticlesQuery, GetArticlesQueryVariables>;
 export const UsersDocument = gql`
     query Users {
   users {

@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { newAccessToken, newRefreshToken } from "../auth";
 import { AuthenticationError } from "apollo-server-express";
 import { MutationResolvers, QueryResolvers } from "src/generated";
-import { Context } from "src";
+import { Context } from "..";
 
 let Queries: QueryResolvers<Context> = {
   users: async () => {
@@ -12,6 +12,11 @@ let Queries: QueryResolvers<Context> = {
   hi: async (_, __, context) => {
     if (!context.user) throw new AuthenticationError("Not authorized");
     return `your user id is: ${context.user.userId}`;
+  },
+  getArticles: async (_, args) => {
+    let articles = await db.any("SELECT * FROM articles");
+    console.log(articles);
+    return articles;
   }
 };
 
