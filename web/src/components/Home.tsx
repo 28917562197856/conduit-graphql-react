@@ -18,12 +18,12 @@ export let Home: React.FC = () => {
         <>
           <div>
             {data?.getArticles?.map(article => (
-              <>
+              <div key={article?.slug!}>
                 <div>{article?.user_id}</div>
                 <div>{article?.createdat}</div>
                 <div>{article?.title}</div>
                 <div>{article?.description}</div>
-              </>
+              </div>
             ))}
           </div>
           <div>
@@ -32,7 +32,7 @@ export let Home: React.FC = () => {
                 data?.getArticles?.flatMap(article => article?.taglist)
               )
             ].map(tag => (
-              <div>{tag}</div>
+              <div key={tag!}>{tag}</div>
             ))}
           </div>
         </>
