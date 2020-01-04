@@ -1,8 +1,7 @@
 INSERT INTO comments(
-    createdAt,
-    updatedAt,
+    "createdAt",
     body,
-    author_id,
-    article_id
+    "authorId",
+    "articleId"
   )
-VALUES($1, $2, $3, $4, $5) RETURNING *
+VALUES($1, $2, $3, $4) RETURNING *

@@ -19,11 +19,11 @@ export type Article = {
   title?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   body?: Maybe<Scalars['String']>,
-  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
-  createdat?: Maybe<Scalars['String']>,
-  updatedat?: Maybe<Scalars['String']>,
-  favoritescount?: Maybe<Scalars['Int']>,
-  user_id?: Maybe<Scalars['Int']>,
+  tagList?: Maybe<Array<Maybe<Scalars['String']>>>,
+  createdAt?: Maybe<Scalars['String']>,
+  updatedAt?: Maybe<Scalars['String']>,
+  favoritesCount?: Maybe<Scalars['Int']>,
+  userId?: Maybe<Scalars['Int']>,
 };
 
 export enum CacheControlScope {
@@ -66,8 +66,8 @@ export type MutationAddArticleArgs = {
   title: Scalars['String'],
   description: Scalars['String'],
   body: Scalars['String'],
-  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
-  user_id: Scalars['Int']
+  tagList?: Maybe<Array<Maybe<Scalars['String']>>>,
+  userId: Scalars['Int']
 };
 
 export type Query = {
@@ -100,8 +100,8 @@ export type AddArticleMutationVariables = {
   title: Scalars['String'],
   description: Scalars['String'],
   body: Scalars['String'],
-  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
-  user_id: Scalars['Int']
+  tagList?: Maybe<Array<Maybe<Scalars['String']>>>,
+  userId: Scalars['Int']
 };
 
 
@@ -120,7 +120,7 @@ export type GetArticlesQuery = (
   { __typename?: 'Query' }
   & { getArticles: Maybe<Array<Maybe<(
     { __typename?: 'Article' }
-    & Pick<Article, 'user_id' | 'createdat' | 'title' | 'description' | 'slug' | 'taglist'>
+    & Pick<Article, 'userId' | 'title' | 'description' | 'slug'>
   )>>> }
 );
 
@@ -182,8 +182,8 @@ export type UsersQuery = (
 
 
 export const AddArticleDocument = gql`
-    mutation addArticle($title: String!, $description: String!, $body: String!, $taglist: [String], $user_id: Int!) {
-  addArticle(title: $title, description: $description, body: $body, taglist: $taglist, user_id: $user_id) {
+    mutation addArticle($title: String!, $description: String!, $body: String!, $tagList: [String], $userId: Int!) {
+  addArticle(title: $title, description: $description, body: $body, tagList: $tagList, userId: $userId) {
     title
   }
 }
@@ -206,8 +206,8 @@ export type AddArticleMutationFn = ApolloReactCommon.MutationFunction<AddArticle
  *      title: // value for 'title'
  *      description: // value for 'description'
  *      body: // value for 'body'
- *      taglist: // value for 'taglist'
- *      user_id: // value for 'user_id'
+ *      tagList: // value for 'tagList'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -220,12 +220,10 @@ export type AddArticleMutationOptions = ApolloReactCommon.BaseMutationOptions<Ad
 export const GetArticlesDocument = gql`
     query getArticles {
   getArticles {
-    user_id
-    createdat
+    userId
     title
     description
     slug
-    taglist
   }
 }
     `;

@@ -4,9 +4,9 @@ CREATE TABLE articles (
   title text NOT NULL,
   description text NOT NULL,
   body text NOT NULL,
-  taglist text [],
-  createdAt date NOT NULL,
-  updatedAt date NOT NULL,
-  favoritesCount int NOT NULL,
-  user_id int REFERENCES users(id)
+  "tagList" text [],
+  "createdAt" date NOT NULL,
+  "updatedAt" date NOT NULL,
+  "favoritesCount" int NOT NULL,
+  "userId" int REFERENCES users(id) ON DELETE CASCADE
 )

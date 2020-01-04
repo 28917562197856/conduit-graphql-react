@@ -9,17 +9,22 @@ export let users = {
 
 export let articles = {
   create: sql("./articles/create.sql"),
-  add: sql("./articles/add.sql")
+  add: sql("./articles/add.sql"),
+  find: sql("./articles/find.sql"),
+  delete: sql("./articles/delete.sql")
 };
 
 export let comments = {
   create: sql("./comments/create.sql"),
-  add: sql("./comments/add.sql")
+  add: sql("./comments/add.sql"),
+  findAll: sql("./comments/findAll.sql"),
+  delete: sql("./comments/delete.sql")
 };
 
 export let favorites = {
   create: sql("./favorites/create.sql"),
-  add: sql("./favorites/add.sql")
+  add: sql("./favorites/add.sql"),
+  delete: sql("./favorites/delete.sql")
 };
 export let follows = {
   create: sql("./follows/create.sql"),

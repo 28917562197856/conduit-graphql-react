@@ -1,10 +1,8 @@
 query getArticles {
   getArticles {
-    user_id
-    createdat
+    userId
     title
     description
     slug
-    taglist
   }
 }

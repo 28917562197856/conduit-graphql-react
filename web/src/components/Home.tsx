@@ -13,14 +13,12 @@ export let Home: React.FC = () => {
           <div>
             {data?.getArticles?.map(article => (
               <div key={article?.slug!}>
-                <div>{article?.user_id}</div>
-                <div>{article?.createdat}</div>
                 <div>{article?.title}</div>
                 <div>{article?.description}</div>
               </div>
             ))}
           </div>
-          <div>
+          {/* <div>
             {[
               ...new Set(
                 data?.getArticles?.flatMap(article => article?.taglist)
@@ -28,7 +26,7 @@ export let Home: React.FC = () => {
             ].map(tag => (
               <div key={tag!}>{tag}</div>
             ))}
-          </div>
+          </div> */}
         </>
       )}
     </div>

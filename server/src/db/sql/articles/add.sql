@@ -3,10 +3,10 @@ INSERT INTO articles(
     title,
     description,
     body,
-    taglist,
-    createdat,
-    updatedat,
-    favoritescount,
-    user_id
+    "tagList",
+    "createdAt",
+    "updatedAt",
+    "favoritesCount",
+    "userId"
   )
 VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *

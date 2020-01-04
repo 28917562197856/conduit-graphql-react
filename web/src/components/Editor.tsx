@@ -12,8 +12,8 @@ export let Editor: React.FC = () => {
         title: data.title,
         description: data.description,
         body: data.body,
-        taglist: data.taglist.split(" "),
-        user_id: 5
+        tagList: data.taglist.split(" "),
+        userId: 5
       }
     });
   }

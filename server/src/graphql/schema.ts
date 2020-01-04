@@ -14,24 +14,23 @@ export let typeDefs = gql`
     title: String
     description: String
     body: String
-    taglist: [String]
-    createdat: String
-    updatedat: String
-    favoritescount: Int
-    user_id: Int
+    tagList: [String]
+    createdAt: String
+    updatedAt: String
+    favoritesCount: Int
+    userId: Int
   }
 
   type Comment {
-    createdat: String
-    updatedat: String
+    createdAt: String
     body: String
-    author_id: Int
-    article_id: Int
+    author: User
   }
 
   type Query {
     users: [User]
     hi: String
+    getProfile(username: String!): User
     getArticles(
       tag: String
       author: String
@@ -39,18 +38,41 @@ export let typeDefs = gql`
       limit: Int
       offset: Int
     ): [Article]
+    getArticle(slug: String!): Article
+    getComments(slug: String!): [Comment]
+    getTags: [String]
   }
 
   type Mutation {
     register(username: String!, email: String!, password: String!): User
     login(email: String!, password: String!): User
+    updateUser(
+      email: String
+      username: String
+      password: String
+      image: String
+      bio: String
+    ): User
+    followUser(username: String!): User
+    unfollowUser(username: String!): User
+    logout: Boolean
     addArticle(
       title: String!
       description: String!
       body: String!
-      taglist: [String]
-      user_id: Int!
+      tagList: [String]
+      userId: Int!
     ): Article
-    logout: Boolean
+    updateArticle(
+      slug: String!
+      title: String
+      description: String
+      body: String
+    ): Article
+    deleteArticle(slug: String!): Article
+    addComment(slug: String!, body: String!): Comment
+    deleteComment(id: Int!): Comment
+    favoriteArticle(slug: String!): Article
+    unfavoriteArticle(slug: String!): Article
   }
 `;
