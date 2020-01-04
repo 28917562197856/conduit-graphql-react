@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../generated";
-import { Global } from "../global";
 import { navigate } from "@reach/router";
+import { UserContext } from "../App";
 
 export let Login: React.FC = () => {
   let { register, handleSubmit } = useForm();
   let [loginMutation] = useLoginMutation();
+  let user = useContext(UserContext);
 
   async function onSubmit(data: any) {
     let res = await loginMutation({
@@ -16,7 +17,7 @@ export let Login: React.FC = () => {
       }
     });
     console.log(res);
-    Global.token = res?.data?.login?.token!;
+    user.setToken(res.data!.login!.token);
     navigate("/");
   }
 

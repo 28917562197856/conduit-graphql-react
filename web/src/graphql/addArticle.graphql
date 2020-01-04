@@ -1,0 +1,17 @@
+mutation addArticle(
+  $title: String!
+  $description: String!
+  $body: String!
+  $taglist: [String]
+  $user_id: Int!
+) {
+  addArticle(
+    title: $title
+    description: $description
+    body: $body
+    taglist: $taglist
+    user_id: $user_id
+  ) {
+    title
+  }
+}

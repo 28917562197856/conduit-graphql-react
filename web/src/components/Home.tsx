@@ -2,14 +2,8 @@ import React, { useEffect } from "react";
 import { useGetArticlesQuery } from "../generated";
 
 export let Home: React.FC = () => {
-  let { data, loading } = useGetArticlesQuery();
+  let { data, loading } = useGetArticlesQuery({ fetchPolicy: "network-only" });
 
-  useEffect(() => {
-    if (!loading) {
-      console.log(data);
-      console.log(data?.getArticles?.flatMap(article => article?.taglist));
-    }
-  }, [loading]);
   return (
     <div>
       {loading ? (

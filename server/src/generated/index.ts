@@ -32,8 +32,8 @@ export enum CacheControlScope {
 
 export type Comment = {
    __typename?: 'Comment',
-  createdAt?: Maybe<Scalars['String']>,
-  updatedAt?: Maybe<Scalars['String']>,
+  createdat?: Maybe<Scalars['String']>,
+  updatedat?: Maybe<Scalars['String']>,
   body?: Maybe<Scalars['String']>,
   author_id?: Maybe<Scalars['Int']>,
   article_id?: Maybe<Scalars['Int']>,
@@ -44,6 +44,7 @@ export type Mutation = {
   register?: Maybe<User>,
   login?: Maybe<User>,
   addArticle?: Maybe<Article>,
+  logout?: Maybe<Scalars['Boolean']>,
 };
 
 
@@ -61,14 +62,10 @@ export type MutationLoginArgs = {
 
 
 export type MutationAddArticleArgs = {
-  slug: Scalars['String'],
   title: Scalars['String'],
   description: Scalars['String'],
   body: Scalars['String'],
   taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
-  createdat?: Maybe<Scalars['String']>,
-  updatedat?: Maybe<Scalars['String']>,
-  favoritescount?: Maybe<Scalars['Int']>,
   user_id: Scalars['Int']
 };
 
@@ -212,8 +209,8 @@ export type ArticleResolvers<ContextType = any, ParentType extends ResolversPare
 }>;
 
 export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = ResolversObject<{
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  createdat?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  updatedat?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   author_id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   article_id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
@@ -222,7 +219,8 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'username' | 'email' | 'password'>>,
   login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>,
-  addArticle?: Resolver<Maybe<ResolversTypes['Article']>, ParentType, ContextType, RequireFields<MutationAddArticleArgs, 'slug' | 'title' | 'description' | 'body' | 'user_id'>>,
+  addArticle?: Resolver<Maybe<ResolversTypes['Article']>, ParentType, ContextType, RequireFields<MutationAddArticleArgs, 'title' | 'description' | 'body' | 'user_id'>>,
+  logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{

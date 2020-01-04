@@ -45,15 +45,12 @@ export let typeDefs = gql`
     register(username: String!, email: String!, password: String!): User
     login(email: String!, password: String!): User
     addArticle(
-      slug: String!
       title: String!
       description: String!
       body: String!
       taglist: [String]
-      createdat: String
-      updatedat: String
-      favoritescount: Int
       user_id: Int!
     ): Article
+    logout: Boolean
   }
 `;

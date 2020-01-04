@@ -10,8 +10,6 @@ import { Article } from "./components/Article";
 import { Profile } from "./components/Profile";
 import { ProfileFavorites } from "./components/ProfileFavorites";
 import { Hi } from "./components/Hi";
-import { useLogoutMutation } from "./generated";
-import { Global } from "./global";
 
 let HomeRoute: React.FC<{ path: string }> = () => <Home />;
 let RegisterRoute: React.FC<{ path: string }> = () => <Register />;
@@ -26,23 +24,12 @@ let ProfileFavoritesRoute: React.FC<{ path: string }> = () => (
 );
 let HiRoute: React.FC<{ path: string }> = () => <Hi />;
 
-export const App: React.FC = () => {
-  let [logout, { client }] = useLogoutMutation();
+let UnauthenticatedRouter: React.FC = () => {
   return (
     <>
       <Link to="/">Home</Link>
       <Link to="/register">Register</Link>
       <Link to="/login">Login</Link>
-      <Link to="/hi">Hi</Link>
-      <button
-        onClick={async () => {
-          await logout();
-          Global.token = "";
-          await client?.resetStore();
-        }}
-      >
-        Logout
-      </button>
       <Router>
         <HomeRoute path="/" />
         <RegisterRoute path="/register" />
@@ -58,3 +45,5 @@ export const App: React.FC = () => {
     </>
   );
 };
+
+export default UnauthenticatedRouter;

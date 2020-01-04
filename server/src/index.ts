@@ -24,7 +24,12 @@ export type Context = {
 (async () => {
   let app = express();
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin: "http://localhost:1234",
+      credentials: true
+    })
+  );
 
   app.use(cookieParser());
 
@@ -46,7 +51,11 @@ export type Context = {
       payload.userId
     ]);
 
-    res.cookie("jid", newRefreshToken(user), { httpOnly: true });
+    res.cookie("jid", newRefreshToken(user), {
+      httpOnly: true,
+      path: "/refresh_token",
+      maxAge: 1000 * 60 * 60 * 24 * 7
+    });
 
     return res.send({ ok: true, accessToken: newAccessToken(user) });
   });
@@ -63,7 +72,7 @@ export type Context = {
     }
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(4000, () => console.log("Server started"));
 })();

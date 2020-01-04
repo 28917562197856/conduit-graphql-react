@@ -1,15 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { Global } from "./global";
-import { AuthorizedApp } from "./App";
+import { App, tokenIndex } from "./App";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { ApolloLink, Observable } from "apollo-link";
-import { TokenRefreshLink } from "apollo-link-token-refresh";
-import jwtDecode from "jwt-decode";
 
 let cache = new InMemoryCache({});
 
@@ -19,10 +16,10 @@ let requestLink = new ApolloLink(
       let handle: any;
       Promise.resolve(operation)
         .then(operation => {
-          if (Global.token) {
+          if (tokenIndex.value) {
             operation.setContext({
               headers: {
-                authorization: `bearer ${Global.token}`
+                authorization: `Bearer ${tokenIndex.value}`
               }
             });
           }
@@ -42,56 +39,24 @@ let requestLink = new ApolloLink(
     })
 );
 
-const client = new ApolloClient({
-  link: ApolloLink.from([
-    new TokenRefreshLink({
-      accessTokenField: "accessToken",
-      isTokenValidOrUndefined: () => {
-        if (!Global.token) {
-          return true;
-        }
+let errorLink = onError(({ graphQLErrors, networkError }) => {
+  console.log(graphQLErrors);
+  console.log(networkError);
+});
 
-        try {
-          const { exp } = jwtDecode(Global.token);
-          if (Date.now() >= exp * 1000) {
-            return false;
-          } else {
-            return true;
-          }
-        } catch {
-          return false;
-        }
-      },
-      fetchAccessToken: () => {
-        return fetch("http://localhost:4000/refresh_token", {
-          method: "POST",
-          credentials: "include"
-        });
-      },
-      handleFetch: accessToken => {
-        Global.token = accessToken;
-      },
-      handleError: err => {
-        console.warn("Your refresh token is invalid. Try to relogin");
-        console.error(err);
-      }
-    }),
-    onError(({ graphQLErrors, networkError }) => {
-      console.log(graphQLErrors);
-      console.log(networkError);
-    }),
-    requestLink,
-    new HttpLink({
-      uri: "http://localhost:4000/graphql",
-      credentials: "include"
-    })
-  ]),
+let httpLink = new HttpLink({
+  uri: "http://localhost:4000/graphql",
+  credentials: "include"
+});
+
+let client = new ApolloClient({
+  link: ApolloLink.from([requestLink, errorLink, httpLink]),
   cache
 });
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <AuthorizedApp />
+    <App />
   </ApolloProvider>,
   document.getElementById("root")
 );

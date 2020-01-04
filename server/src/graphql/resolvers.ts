@@ -31,14 +31,27 @@ let Mutations: MutationResolvers<Context> = {
       null,
       null
     ]);
-    return user;
+
+    context.res.cookie("jid", newRefreshToken(user), {
+      httpOnly: true,
+      path: "/refresh_token",
+      maxAge: 1000 * 60 * 60 * 24 * 7
+    });
+    return {
+      ...user,
+      token: newAccessToken(user)
+    };
   },
   login: async (_, args, context) => {
     let user = await db.one(sql.users.find, args.email);
     let valid = await bcrypt.compare(args.password, user.password);
     if (!valid) throw new Error("Invalid password");
 
-    context.res.cookie("jid", newRefreshToken(user), { httpOnly: true });
+    context.res.cookie("jid", newRefreshToken(user), {
+      httpOnly: true,
+      path: "/refresh_token",
+      maxAge: 1000 * 60 * 60 * 24 * 7
+    });
 
     return {
       ...user,
@@ -46,8 +59,32 @@ let Mutations: MutationResolvers<Context> = {
     };
   },
   addArticle: async (_, args) => {
-    let article = await db.one(sql.articles.add, Object.values(args));
-    return article;
+    console.log(args);
+    let article = {
+      slug: args.title
+        .toLowerCase()
+        .split(" ")
+        .join("-"),
+      title: args.title,
+      description: args.description,
+      body: args.body,
+      taglist: args.taglist,
+      createdat: new Date().toUTCString(),
+      updatedat: new Date().toUTCString(),
+      favoritescount: 0,
+      user_id: args.user_id
+    };
+    let articleDb = await db.one(sql.articles.add, Object.values(article));
+    console.log(articleDb);
+    return articleDb;
+  },
+  logout: async (_, __, context) => {
+    context.res.cookie("jid", "", {
+      httpOnly: true,
+      path: "/refresh_token"
+    });
+
+    return true;
   }
 };
 

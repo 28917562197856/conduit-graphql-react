@@ -63,14 +63,10 @@ export type MutationLoginArgs = {
 
 
 export type MutationAddArticleArgs = {
-  slug: Scalars['String'],
   title: Scalars['String'],
   description: Scalars['String'],
   body: Scalars['String'],
   taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
-  createdat?: Maybe<Scalars['String']>,
-  updatedat?: Maybe<Scalars['String']>,
-  favoritescount?: Maybe<Scalars['Int']>,
   user_id: Scalars['Int']
 };
 
@@ -99,6 +95,23 @@ export type User = {
   bio?: Maybe<Scalars['String']>,
   image?: Maybe<Scalars['String']>,
 };
+
+export type AddArticleMutationVariables = {
+  title: Scalars['String'],
+  description: Scalars['String'],
+  body: Scalars['String'],
+  taglist?: Maybe<Array<Maybe<Scalars['String']>>>,
+  user_id: Scalars['Int']
+};
+
+
+export type AddArticleMutation = (
+  { __typename?: 'Mutation' }
+  & { addArticle: Maybe<(
+    { __typename?: 'Article' }
+    & Pick<Article, 'title'>
+  )> }
+);
 
 export type GetArticlesQueryVariables = {};
 
@@ -168,6 +181,42 @@ export type UsersQuery = (
 );
 
 
+export const AddArticleDocument = gql`
+    mutation addArticle($title: String!, $description: String!, $body: String!, $taglist: [String], $user_id: Int!) {
+  addArticle(title: $title, description: $description, body: $body, taglist: $taglist, user_id: $user_id) {
+    title
+  }
+}
+    `;
+export type AddArticleMutationFn = ApolloReactCommon.MutationFunction<AddArticleMutation, AddArticleMutationVariables>;
+
+/**
+ * __useAddArticleMutation__
+ *
+ * To run a mutation, you first call `useAddArticleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddArticleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addArticleMutation, { data, loading, error }] = useAddArticleMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *      body: // value for 'body'
+ *      taglist: // value for 'taglist'
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useAddArticleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddArticleMutation, AddArticleMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddArticleMutation, AddArticleMutationVariables>(AddArticleDocument, baseOptions);
+      }
+export type AddArticleMutationHookResult = ReturnType<typeof useAddArticleMutation>;
+export type AddArticleMutationResult = ApolloReactCommon.MutationResult<AddArticleMutation>;
+export type AddArticleMutationOptions = ApolloReactCommon.BaseMutationOptions<AddArticleMutation, AddArticleMutationVariables>;
 export const GetArticlesDocument = gql`
     query getArticles {
   getArticles {
