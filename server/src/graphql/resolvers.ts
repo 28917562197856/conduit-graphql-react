@@ -1,30 +1,26 @@
-import { db, sql } from "../db";
 import bcrypt from "bcrypt";
 import { newAccessToken, newRefreshToken } from "../auth";
 import { AuthenticationError } from "apollo-server-express";
 import { MutationResolvers, QueryResolvers } from "../generated";
 import { Context } from "..";
-import { articles } from "../db/repos/articles";
-import { comments } from "../db/repos/comments";
-import { favorites } from "../db/repos/favorites";
-import { users } from "../db/repos/users";
+import { articles } from "../db/sql/articles";
+import { comments } from "../db/sql/comments";
+import { favorites } from "../db/sql/favorites";
+import { users } from "../db/sql/users";
+import { follows } from "../db/sql/follows";
 
 let Queries: QueryResolvers<Context> = {
-  users: async () => {
-    return await db.any("SELECT * FROM users");
-  },
   hi: async (_, __, context) => {
     if (!context.user) throw new AuthenticationError("Not authenticated");
     return `your user id is: ${context.user.userId}`;
   },
   getProfile: async (_, args) => {
-    let user: any = await users.find(args.username);
-    console.log(user);
+    let user = users.find(args.username);
     return user;
   },
-  getArticles: async (_, args) => {
-    let articles = await db.any("SELECT * FROM articles");
-    return articles;
+  getArticles: async () => {
+    let articleList = await articles.findAll();
+    return articleList;
   },
   getArticle: async (_, args) => {
     let article = await articles.find(args.slug);
@@ -36,7 +32,7 @@ let Queries: QueryResolvers<Context> = {
     return result;
   },
   getTags: async () => {
-    let tags = await db.any('SELECT "tagList" from articles');
+    let tags = await articles.getTags();
     tags = tags.flatMap(x => x.tagList);
     let uniqueTags: any = [...new Set(tags)];
     return uniqueTags;
@@ -47,26 +43,29 @@ let Mutations: MutationResolvers<Context> = {
   register: async (_, args, context) => {
     let hash = await bcrypt.hash(args.password, 12);
 
-    let user = await db.one(sql.users.add, [
-      args.username,
-      args.email,
-      hash,
-      null,
-      null
-    ]);
+    let vars = {
+      username: args.username,
+      email: args.email,
+      password: hash,
+      bio: null,
+      image: null
+    };
+
+    let user = await users.add(vars);
 
     context.res.cookie("jid", newRefreshToken(user), {
       httpOnly: true,
       path: "/refresh_token",
       maxAge: 1000 * 60 * 60 * 24 * 7
     });
+
     return {
       ...user,
       token: newAccessToken(user)
     };
   },
   login: async (_, args, context) => {
-    let user = await db.one(sql.users.find, args.email);
+    let user = await users.findEmail(args.email);
 
     let valid = await bcrypt.compare(args.password, user.password);
     if (!valid) throw new Error("Invalid password");
@@ -101,6 +100,40 @@ let Mutations: MutationResolvers<Context> = {
     });
 
     return article;
+  },
+  updateUser: async (_, args, context) => {
+    if (!context.user) throw new AuthenticationError("Not authenticated");
+
+    let vars: object = {};
+    if (args.email) vars = { ...vars, email: args.email };
+    if (args.username) vars = { ...vars, username: args.username };
+    if (args.password) {
+      let hash = await bcrypt.hash(args.password, 12);
+      vars = { ...vars, password: hash };
+    }
+    if (args.image) vars = { ...vars, image: args.image };
+    if (args.bio) vars = { ...vars, bio: args.bio };
+
+    let user = await users.update(context.user.userId, vars);
+    return user;
+  },
+  followUser: async (_, args, context) => {
+    if (!context.user) throw new AuthenticationError("Not authenticated");
+
+    let folowee = await users.find(args.username);
+
+    await follows.add(context.user.userId, folowee.id);
+
+    return folowee;
+  },
+  unfollowUser: async (_, args, context) => {
+    if (!context.user) throw new AuthenticationError("Not authenticated");
+
+    let folowee = await users.find(args.username);
+
+    await follows.remove(context.user.userId, folowee.id);
+
+    return folowee;
   },
   updateArticle: async (_, args, context) => {
     if (!context.user) throw new AuthenticationError("Not authenticated");

@@ -1,13 +1,4 @@
 import pgPromise from "pg-promise";
-import { articles, comments, favorites, follows, users } from "./sql";
-
-let sql = {
-  articles,
-  comments,
-  favorites,
-  follows,
-  users
-};
 
 let pgp = pgPromise();
 
@@ -20,4 +11,4 @@ let dbConfig = {
 
 let db = pgp(dbConfig);
 
-export { pgp, db, sql };
+export { pgp, db };
