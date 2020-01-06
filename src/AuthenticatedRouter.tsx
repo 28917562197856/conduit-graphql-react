@@ -7,8 +7,6 @@ import { EditorArticle } from "./components/EditorArticle";
 import { Article } from "./components/Article";
 import { Profile } from "./components/Profile";
 import { ProfileFavorites } from "./components/ProfileFavorites";
-import { Hi } from "./components/Hi";
-import { useLogoutMutation } from "./generated";
 import { UserContext } from "./App";
 
 let HomeRoute: React.FC<{ path: string }> = () => <Home />;
@@ -20,10 +18,8 @@ let ProfileRoute: React.FC<{ path: string }> = () => <Profile />;
 let ProfileFavoritesRoute: React.FC<{ path: string }> = () => (
   <ProfileFavorites />
 );
-let HiRoute: React.FC<{ path: string }> = () => <Hi />;
 
 let AuthenticatedRouter: React.FC = () => {
-  let [logout, { client }] = useLogoutMutation();
   let user = useContext(UserContext);
   return (
     <>
@@ -32,9 +28,7 @@ let AuthenticatedRouter: React.FC = () => {
       <Link to="/editor">Add article</Link>
       <button
         onClick={async () => {
-          await logout();
           user.setToken("");
-          await client?.resetStore();
           navigate("/");
         }}
       >
@@ -48,7 +42,6 @@ let AuthenticatedRouter: React.FC = () => {
         <ArticleRoute path="/article/:slug" />
         <ProfileRoute path="/profile/:username" />
         <ProfileFavoritesRoute path="/profile/:username/favorites" />
-        <HiRoute path="/hi" />
       </Router>
     </>
   );

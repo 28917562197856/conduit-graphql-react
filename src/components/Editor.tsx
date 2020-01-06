@@ -1,21 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useAddArticleMutation } from "../generated";
 
 export let Editor: React.FC = () => {
   let { register, handleSubmit } = useForm();
-  let [addArticle] = useAddArticleMutation();
   function onSubmit(data: any) {
     console.log(data);
-    addArticle({
-      variables: {
-        title: data.title,
-        description: data.description,
-        body: data.body,
-        tagList: data.taglist.split(" "),
-        userId: 5
-      }
-    });
+    // addArticle({
+    //   variables: {
+    //     title: data.title,
+    //     description: data.description,
+    //     body: data.body,
+    //     tagList: data.taglist.split(" "),
+    //     userId: 5
+    //   }
+    // });
   }
   return (
     <div>

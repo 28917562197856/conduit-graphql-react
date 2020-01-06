@@ -1,23 +1,26 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useRegisterMutation } from "../generated";
 import { navigate } from "@reach/router";
 import { UserContext } from "../App";
+import ky from "ky";
 
 export let Register: React.FC = () => {
   let { register, handleSubmit } = useForm();
-  let [registerMutation] = useRegisterMutation();
   let user = useContext(UserContext);
 
   async function onSubmit(data: any) {
-    let res = await registerMutation({
-      variables: {
-        username: data.username,
-        email: data.email,
-        password: data.password
-      }
-    });
-    user.setToken(res.data!.register!.token);
+    // let res = await ky
+    //   .post("http://localhost:4000/register", {
+    //     json: {
+    //       username: data.username,
+    //       email: data.email,
+    //       password: data.password
+    //     }
+    //   })
+    //   .json();
+    // let res = await ky.get("http://localhost:4000/articles");
+    // console.log(res);
+    // user.setToken(res.data!.register!.token);
     navigate("/");
   }
 

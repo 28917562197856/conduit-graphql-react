@@ -1,23 +1,26 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useLoginMutation } from "../generated";
 import { navigate } from "@reach/router";
 import { UserContext } from "../App";
+import ky from "ky";
 
 export let Login: React.FC = () => {
   let { register, handleSubmit } = useForm();
-  let [loginMutation] = useLoginMutation();
   let user = useContext(UserContext);
 
   async function onSubmit(data: any) {
-    let res = await loginMutation({
-      variables: {
-        email: data.email,
-        password: data.password
-      }
-    });
-    console.log(res);
-    user.setToken(res.data!.login!.token);
+    let res: any = await ky
+      .post("http://localhost:4000/login", {
+        credentials: "include",
+        json: {
+          email: data.email,
+          password: data.password
+        }
+      })
+      .json();
+
+    // await ky.post("http://localhost:4000/cookie", { credentials: "include" });
+    // user.setToken(res.token);
     navigate("/");
   }
 

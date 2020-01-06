@@ -9,7 +9,6 @@ import { EditorArticle } from "./components/EditorArticle";
 import { Article } from "./components/Article";
 import { Profile } from "./components/Profile";
 import { ProfileFavorites } from "./components/ProfileFavorites";
-import { Hi } from "./components/Hi";
 
 let HomeRoute: React.FC<{ path: string }> = () => <Home />;
 let RegisterRoute: React.FC<{ path: string }> = () => <Register />;
@@ -22,7 +21,6 @@ let ProfileRoute: React.FC<{ path: string }> = () => <Profile />;
 let ProfileFavoritesRoute: React.FC<{ path: string }> = () => (
   <ProfileFavorites />
 );
-let HiRoute: React.FC<{ path: string }> = () => <Hi />;
 
 let UnauthenticatedRouter: React.FC = () => {
   return (
@@ -40,7 +38,6 @@ let UnauthenticatedRouter: React.FC = () => {
         <ArticleRoute path="/article/:slug" />
         <ProfileRoute path="/profile/:username" />
         <ProfileFavoritesRoute path="/profile/:username/favorites" />
-        <HiRoute path="/hi" />
       </Router>
     </>
   );
