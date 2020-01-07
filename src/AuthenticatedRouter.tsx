@@ -8,6 +8,7 @@ import { Article } from "./components/Article";
 import { Profile } from "./components/Profile";
 import { ProfileFavorites } from "./components/ProfileFavorites";
 import { UserContext } from "./App";
+import ky from "ky";
 
 let HomeRoute: React.FC<{ path: string }> = () => <Home />;
 let SettingsRoute: React.FC<{ path: string }> = () => <Settings />;
@@ -28,6 +29,9 @@ let AuthenticatedRouter: React.FC = () => {
       <Link to="/editor">Add article</Link>
       <button
         onClick={async () => {
+          await ky.post("http://localhost:4000/logout", {
+            credentials: "include"
+          });
           user.setToken("");
           navigate("/");
         }}
