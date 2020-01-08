@@ -26,7 +26,6 @@ let AuthenticatedRouter: React.FC = () => {
   return (
     <>
       <Header />
-      <Link to="/">Home</Link>
       <Link to="/hi">Hi</Link>
       <Link to="/editor">Add article</Link>
       <button

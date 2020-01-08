@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useKy } from "../hooks/useKy";
 
 export let Home: React.FC = () => {
   let articles = useKy("/articles", "get");
   let tags = useKy("/tags", "get");
+
+  useEffect(() => {
+    if (!articles.loading) console.log(articles);
+  }, [articles.loading]);
 
   return (
     <div className="home-page">
@@ -36,7 +40,7 @@ export let Home: React.FC = () => {
                   <div key={article.title} className="article-preview">
                     <div className="article-meta">
                       <a href="profile.html">
-                        <img src={article.img} />
+                        <img src={article.user.image} />
                       </a>
                       <div className="info">
                         <a href="" className="author">

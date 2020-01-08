@@ -1,33 +1,72 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "@reach/router";
+import { useKy } from "../../hooks/useKy";
+import { UserContext } from "../../App";
 
 export let Header: React.FC = () => {
+  let userContext = useContext(UserContext);
+  let { data, loading } = useKy("/user", "get", {
+    credentials: true,
+    token: userContext.token
+  });
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <a className="navbar-brand" href="index.html">
+        <Link to="/" className="navbar-brand">
           conduit
-        </a>
+        </Link>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            {/* <!-- Add "active" class when you're on that page" --> */}
-            <a className="nav-link active" href="">
+            <Link
+              to="/"
+              className={
+                window.location.pathname === "/"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
               Home
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
-              <i className="ion-compose"></i>&nbsp;New Post
-            </a>
+            <Link
+              to="/"
+              className={
+                window.location.pathname === "/"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="ion-compose"></i>&nbsp;New Article
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <Link
+              to="/"
+              className={
+                window.location.pathname === "/"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
               <i className="ion-gear-a"></i>&nbsp;Settings
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
-              Sign up
-            </a>
+            {loading ? (
+              "Loading..."
+            ) : (
+              <Link
+                to="/"
+                className={
+                  window.location.pathname === `/${data.username}`
+                    ? "nav-link active"
+                    : "nav-link"
+                }
+              >
+                {data.username}
+              </Link>
+            )}
           </li>
         </ul>
       </div>
