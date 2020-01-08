@@ -18,8 +18,6 @@ export let Login: React.FC = () => {
         }
       })
       .json();
-
-    // await ky.post("http://localhost:4000/cookie", { credentials: "include" });
     user.setToken(res.token);
     navigate("/");
   }

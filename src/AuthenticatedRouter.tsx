@@ -9,13 +9,14 @@ import { Profile } from "./components/Profile";
 import { ProfileFavorites } from "./components/ProfileFavorites";
 import { UserContext } from "./App";
 import ky from "ky";
+import { Header } from "./components/templates/Header";
+import { Footer } from "./components/templates/Footer";
 
 let HomeRoute: React.FC<{ path: string }> = () => <Home />;
 let SettingsRoute: React.FC<{ path: string }> = () => <Settings />;
 let EditorRoute: React.FC<{ path: string }> = () => <Editor />;
 let EditorArticleRoute: React.FC<{ path: string }> = () => <EditorArticle />;
 let ArticleRoute: React.FC<{ path: string }> = () => <Article />;
-let ProfileRoute: React.FC<{ path: string }> = () => <Profile />;
 let ProfileFavoritesRoute: React.FC<{ path: string }> = () => (
   <ProfileFavorites />
 );
@@ -24,6 +25,7 @@ let AuthenticatedRouter: React.FC = () => {
   let user = useContext(UserContext);
   return (
     <>
+      <Header />
       <Link to="/">Home</Link>
       <Link to="/hi">Hi</Link>
       <Link to="/editor">Add article</Link>
@@ -39,14 +41,15 @@ let AuthenticatedRouter: React.FC = () => {
         Logout
       </button>
       <Router>
+        <Profile path="/:username" />
         <HomeRoute path="/" />
         <SettingsRoute path="/settings" />
         <EditorRoute path="/editor" />
         <EditorArticleRoute path="/editor/:slug" />
         <ArticleRoute path="/article/:slug" />
-        <ProfileRoute path="/profile/:username" />
         <ProfileFavoritesRoute path="/profile/:username/favorites" />
       </Router>
+      <Footer />
     </>
   );
 };

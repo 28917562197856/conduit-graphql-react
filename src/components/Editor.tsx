@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import ky from "ky";
+import { UserContext } from "../App";
 
 export let Editor: React.FC = () => {
   let { register, handleSubmit } = useForm();
-  function onSubmit(data: any) {
-    console.log(data);
+  let user = useContext(UserContext);
+
+  async function onSubmit(data: any) {
+    console.log(user);
+    let article = await ky
+      .post("http://localhost:4000/articles", {
+        credentials: "include",
+        headers: { authorization: `Bearer ${user.token}` },
+        json: {
+          title: data.title,
+          description: data.description,
+          body: data.body,
+          tagList: data.taglist.split(" ")
+        }
+      })
+      .json();
+    console.log(article);
     // addArticle({
     //   variables: {
     //     title: data.title,

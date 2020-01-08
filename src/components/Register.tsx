@@ -9,18 +9,18 @@ export let Register: React.FC = () => {
   let user = useContext(UserContext);
 
   async function onSubmit(data: any) {
-    // let res = await ky
-    //   .post("http://localhost:4000/register", {
-    //     json: {
-    //       username: data.username,
-    //       email: data.email,
-    //       password: data.password
-    //     }
-    //   })
-    //   .json();
-    // let res = await ky.get("http://localhost:4000/articles");
-    // console.log(res);
-    // user.setToken(res.data!.register!.token);
+    let res: any = await ky
+      .post("http://localhost:4000/register", {
+        credentials: "include",
+        json: {
+          username: data.username,
+          email: data.email,
+          password: data.password
+        }
+      })
+      .json();
+    console.log(res);
+    user.setToken(res.token);
     navigate("/");
   }
 

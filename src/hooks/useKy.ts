@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import ky from "ky";
-import jwtDecode from "jwt-decode";
 
 let root = "http://localhost:4000";
 
@@ -14,12 +13,6 @@ type Options = {
 export function useKy(url: string, method: string, options?: Options) {
   let [data, setData] = useState<any>(null);
   let [loading, setLoading] = useState(true);
-
-  if (options?.token) {
-    console.log(options.token);
-    let decoded = jwtDecode(options.token);
-    console.log(decoded);
-  }
 
   useEffect(() => {
     (async () => {
