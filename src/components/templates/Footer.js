@@ -1,6 +1,6 @@
 import React from "react";
 
-export let Footer: React.FC = () => {
+export let Footer = () => {
   return (
     <footer>
       <div className="container">

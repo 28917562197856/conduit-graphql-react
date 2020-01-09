@@ -3,15 +3,15 @@ import ky from "ky";
 
 let root = "http://localhost:4000";
 
-type Options = {
-  body?: Blob;
-  token?: string;
-  credentials?: boolean;
-  setToken?: any;
-};
+// type Options = {
+//   body?: Blob;
+//   token?: string;
+//   credentials?: boolean;
+//   setToken?: any;
+// };
 
-export function useKy(url: string, method: string, options?: Options) {
-  let [data, setData] = useState<any>(null);
+export function useKy(url, method, options) {
+  let [data, setData] = useState(null);
   let [loading, setLoading] = useState(true);
 
   useEffect(() => {

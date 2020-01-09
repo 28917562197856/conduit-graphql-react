@@ -3,12 +3,12 @@ import { useInterval } from "./hooks/useInterval";
 import ky from "ky";
 import { useKy } from "./hooks/useKy";
 
-export let UserContext = React.createContext<any>({});
-
 let AuthenticatedRouter = React.lazy(() => import("./AuthenticatedRouter"));
 let UnauthenticatedRouter = React.lazy(() => import("./UnauthenticatedRouter"));
 
-export let App: React.FC = () => {
+export let UserContext = React.createContext({});
+
+export let App = () => {
   let [token, setToken] = useState("");
   let { data, loading } = useKy("/refresh_token", "post", {
     credentials: true
@@ -24,7 +24,7 @@ export let App: React.FC = () => {
     }
   }, [loading]);
 
-  let body: any;
+  let body;
   if (loading) {
     body = null;
   } else if (token) {
@@ -40,8 +40,8 @@ export let App: React.FC = () => {
   );
 };
 
-export async function fetchToken(setToken: any) {
-  let res: any = await ky
+export async function fetchToken(setToken) {
+  let res = await ky
     .post("http://localhost:4000/refresh_token", { credentials: "include" })
     .json();
   let { accessToken } = res;

@@ -12,16 +12,14 @@ import ky from "ky";
 import { Header } from "./components/templates/Header";
 import { Footer } from "./components/templates/Footer";
 
-let HomeRoute: React.FC<{ path: string }> = () => <Home />;
-let SettingsRoute: React.FC<{ path: string }> = () => <Settings />;
-let EditorRoute: React.FC<{ path: string }> = () => <Editor />;
-let EditorArticleRoute: React.FC<{ path: string }> = () => <EditorArticle />;
-let ArticleRoute: React.FC<{ path: string }> = () => <Article />;
-let ProfileFavoritesRoute: React.FC<{ path: string }> = () => (
-  <ProfileFavorites />
-);
+let HomeRoute = () => <Home />;
+let SettingsRoute = () => <Settings />;
+let EditorRoute = () => <Editor />;
+let EditorArticleRoute = () => <EditorArticle />;
+let ArticleRoute = () => <Article />;
+let ProfileFavoritesRoute = () => <ProfileFavorites />;
 
-let AuthenticatedRouter: React.FC = () => {
+function AuthenticatedRouter() {
   let user = useContext(UserContext);
   return (
     <>
@@ -51,6 +49,6 @@ let AuthenticatedRouter: React.FC = () => {
       <Footer />
     </>
   );
-};
+}
 
 export default AuthenticatedRouter;

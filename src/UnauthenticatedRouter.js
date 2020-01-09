@@ -10,19 +10,17 @@ import { Article } from "./components/Article";
 import { Profile } from "./components/Profile";
 import { ProfileFavorites } from "./components/ProfileFavorites";
 
-let HomeRoute: React.FC<{ path: string }> = () => <Home />;
-let RegisterRoute: React.FC<{ path: string }> = () => <Register />;
-let LoginRoute: React.FC<{ path: string }> = () => <Login />;
-let SettingsRoute: React.FC<{ path: string }> = () => <Settings />;
-let EditorRoute: React.FC<{ path: string }> = () => <Editor />;
-let EditorArticleRoute: React.FC<{ path: string }> = () => <EditorArticle />;
-let ArticleRoute: React.FC<{ path: string }> = () => <Article />;
-let ProfileRoute: React.FC<{ path: string }> = () => <Profile />;
-let ProfileFavoritesRoute: React.FC<{ path: string }> = () => (
-  <ProfileFavorites />
-);
+let HomeRoute = () => <Home />;
+let RegisterRoute = () => <Register />;
+let LoginRoute = () => <Login />;
+let SettingsRoute = () => <Settings />;
+let EditorRoute = () => <Editor />;
+let EditorArticleRoute = () => <EditorArticle />;
+let ArticleRoute = () => <Article />;
+let ProfileRoute = () => <Profile />;
+let ProfileFavoritesRoute = () => <ProfileFavorites />;
 
-let UnauthenticatedRouter: React.FC = () => {
+let UnauthenticatedRouter = () => {
   return (
     <>
       <Link to="/">Home</Link>

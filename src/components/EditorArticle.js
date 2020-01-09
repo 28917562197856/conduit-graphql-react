@@ -1,5 +1,5 @@
 import React from "react";
 
-export let EditorArticle: React.FC = () => {
+export let EditorArticle = () => {
   return <div>Editor Article</div>;
 };

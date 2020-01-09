@@ -2,12 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { useKy } from "../hooks/useKy";
 import { UserContext } from "../App";
 
-type Props = {
-  path: string;
-  username?: string;
-};
-
-export let Profile: React.FC<Props> = ({ username }) => {
+export let Profile = ({ username }) => {
   let userContext = useContext(UserContext);
   let profile = useKy(`/profiles/${username}`, "get");
   let currentUser = useKy("/user", "get", {

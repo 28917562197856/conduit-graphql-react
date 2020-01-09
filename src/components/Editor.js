@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import ky from "ky";
 import { UserContext } from "../App";
 
-export let Editor: React.FC = () => {
+export let Editor = () => {
   let { register, handleSubmit } = useForm();
   let user = useContext(UserContext);
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data) {
     console.log(user);
     let article = await ky
       .post("http://localhost:4000/articles", {

@@ -4,12 +4,12 @@ import { navigate } from "@reach/router";
 import { UserContext } from "../App";
 import ky from "ky";
 
-export let Login: React.FC = () => {
+export let Login = () => {
   let { register, handleSubmit } = useForm();
   let user = useContext(UserContext);
 
-  async function onSubmit(data: any) {
-    let res: any = await ky
+  async function onSubmit(data) {
+    let res = await ky
       .post("http://localhost:4000/login", {
         credentials: "include",
         json: {

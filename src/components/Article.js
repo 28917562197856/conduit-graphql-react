@@ -1,5 +1,5 @@
 import React from "react";
 
-export let Article: React.FC = () => {
+export let Article = () => {
   return <div>Article</div>;
 };

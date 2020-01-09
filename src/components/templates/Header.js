@@ -3,7 +3,7 @@ import { Link } from "@reach/router";
 import { useKy } from "../../hooks/useKy";
 import { UserContext } from "../../App";
 
-export let Header: React.FC = () => {
+export let Header = () => {
   let userContext = useContext(UserContext);
   let { data, loading } = useKy("/user", "get", {
     credentials: true,

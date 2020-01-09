@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useKy } from "../hooks/useKy";
 
-export let Home: React.FC = () => {
+export let Home = () => {
   let articles = useKy("/articles", "get");
   let tags = useKy("/tags", "get");
 
