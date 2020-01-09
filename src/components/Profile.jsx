@@ -1,13 +1,13 @@
 import React, { useEffect, useContext } from "react";
-import { useKy } from "../hooks/useKy";
-import { UserContext } from "../App";
+import useKy from "../hooks/useKy";
+import { TokenContext } from "../App";
 
-export let Profile = ({ username }) => {
-  let userContext = useContext(UserContext);
+export default function Profile({ username }) {
+  let tokenContext = useContext(TokenContext);
   let profile = useKy(`/profiles/${username}`, "get");
   let currentUser = useKy("/user", "get", {
     credentials: true,
-    token: userContext.token
+    token: tokenContext.token
   });
   let articles = useKy(`/articles/?author=${username}`, "get");
   useEffect(() => {
@@ -29,13 +29,19 @@ export let Profile = ({ username }) => {
                   <h4>{profile.data.username}</h4>
                   <p>{profile.data.bio}</p>
                   {profile.data.username === currentUser.data.username ? (
-                    <button className="btn btn-sm btn-outline-secondary action-btn">
-                      <i className="ion-gear-a"></i>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary action-btn"
+                    >
+                      <i className="ion-gear-a" />
                       &nbsp; Edit Profile Settings
                     </button>
                   ) : (
-                    <button className="btn btn-sm btn-outline-secondary action-btn">
-                      <i className="ion-plus-round"></i>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary action-btn"
+                    >
+                      <i className="ion-plus-round" />
                       &nbsp; Follow Eric Simons
                     </button>
                   )}
@@ -72,8 +78,12 @@ export let Profile = ({ username }) => {
                         </a>
                         <span className="date">{article.updatedAt}</span>
                       </div>
-                      <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                        <i className="ion-heart"></i> {article.favoritesCount}
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary btn-sm pull-xs-right"
+                      >
+                        <i className="ion-heart" />
+                        {article.favoritesCount}
                       </button>
                     </div>
                     <a href="" className="preview-link">
@@ -90,4 +100,4 @@ export let Profile = ({ username }) => {
       )}
     </>
   );
-};
+}

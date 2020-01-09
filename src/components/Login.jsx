@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { navigate } from "@reach/router";
-import { UserContext } from "../App";
 import ky from "ky";
+import { UserContext } from "../App";
 
-export let Login = () => {
+export default function Login() {
   let { register, handleSubmit } = useForm();
   let user = useContext(UserContext);
 
@@ -39,4 +39,4 @@ export let Login = () => {
       </form>
     </div>
   );
-};
+}

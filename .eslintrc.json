@@ -1,0 +1,20 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": { "browser": true },
+  "rules": {
+    "quotes": "off",
+    "prefer-const": "off",
+    "comma-dangle": "off",
+    "arrow-parens": "off",
+    "indent": "off",
+    "consistent-return": "off",
+    "import/no-mutable-exports": "off",
+    "import/named": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/prop-types": "off",
+    "react/jsx-indent": "off",
+    "jsx-a11y/alt-text": "off",
+    "jsx-a11y/anchor-is-valid": "warn"
+  }
+}

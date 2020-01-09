@@ -1,5 +1,5 @@
 import React from "react";
 
-export let Article = () => {
+export default function Article() {
   return <div>Article</div>;
-};
+}

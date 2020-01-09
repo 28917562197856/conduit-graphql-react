@@ -1,14 +1,14 @@
 import React from "react";
 import { Router, Link } from "@reach/router";
-import { Home } from "./components/Home";
-import { Register } from "./components/Register";
-import { Login } from "./components/Login";
-import { Settings } from "./components/Settings";
-import { Editor } from "./components/Editor";
-import { EditorArticle } from "./components/EditorArticle";
-import { Article } from "./components/Article";
-import { Profile } from "./components/Profile";
-import { ProfileFavorites } from "./components/ProfileFavorites";
+import Home from "./components/Home";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import Settings from "./components/Settings";
+import Editor from "./components/Editor";
+import EditorArticle from "./components/EditorArticle";
+import Article from "./components/Article";
+import Profile from "./components/Profile";
+import ProfileFavorites from "./components/ProfileFavorites";
 
 let HomeRoute = () => <Home />;
 let RegisterRoute = () => <Register />;

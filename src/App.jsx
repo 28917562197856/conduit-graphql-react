@@ -1,14 +1,22 @@
 import React, { useState, useEffect, Suspense } from "react";
-import { useInterval } from "./hooks/useInterval";
 import ky from "ky";
-import { useKy } from "./hooks/useKy";
+import useInterval from "./hooks/useInterval";
+import useKy from "./hooks/useKy";
 
 let AuthenticatedRouter = React.lazy(() => import("./AuthenticatedRouter"));
 let UnauthenticatedRouter = React.lazy(() => import("./UnauthenticatedRouter"));
 
 export let UserContext = React.createContext({});
 
-export let App = () => {
+export async function fetchToken(setToken) {
+  let res = await ky
+    .post("http://localhost:4000/refresh_token", { credentials: "include" })
+    .json();
+  let { accessToken } = res;
+  setToken(accessToken);
+}
+
+export default function App() {
   let [token, setToken] = useState("");
   let { data, loading } = useKy("/refresh_token", "post", {
     credentials: true
@@ -38,12 +46,4 @@ export let App = () => {
       <Suspense fallback={<div>Loading...</div>}>{body}</Suspense>
     </UserContext.Provider>
   );
-};
-
-export async function fetchToken(setToken) {
-  let res = await ky
-    .post("http://localhost:4000/refresh_token", { credentials: "include" })
-    .json();
-  let { accessToken } = res;
-  setToken(accessToken);
 }

@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import ky from "ky";
-import { UserContext } from "../App";
+import { TokenContext } from "../App";
 
-export let Editor = () => {
+export default function Editor() {
   let { register, handleSubmit } = useForm();
-  let user = useContext(UserContext);
+  let tokenContext = useContext(TokenContext);
 
   async function onSubmit(data) {
-    console.log(user);
+    console.log(tokenContext);
     let article = await ky
       .post("http://localhost:4000/articles", {
         credentials: "include",
-        headers: { authorization: `Bearer ${user.token}` },
+        headers: { authorization: `Bearer ${tokenContext.token}` },
         json: {
           title: data.title,
           description: data.description,
@@ -55,4 +55,4 @@ export let Editor = () => {
       </form>
     </div>
   );
-};
+}

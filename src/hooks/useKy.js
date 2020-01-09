@@ -10,7 +10,7 @@ let root = "http://localhost:4000";
 //   setToken?: any;
 // };
 
-export function useKy(url, method, options) {
+export default function useKy(url, method, options) {
   let [data, setData] = useState(null);
   let [loading, setLoading] = useState(true);
 

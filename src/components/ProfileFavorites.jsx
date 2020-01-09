@@ -1,5 +1,5 @@
 import React from "react";
 
-export let ProfileFavorites = () => {
+export default function ProfileFavorites() {
   return <div>Profile Favorites</div>;
-};
+}

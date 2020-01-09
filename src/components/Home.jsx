@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { useKy } from "../hooks/useKy";
+import useKy from "../hooks/useKy";
 
-export let Home = () => {
+export default function Home() {
   let articles = useKy("/articles", "get");
   let tags = useKy("/tags", "get");
 
@@ -48,8 +48,11 @@ export let Home = () => {
                         </a>
                         <span className="date">{article.updatedAt}</span>
                       </div>
-                      <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                        <i className="ion-heart"></i> {article.favoritesCount}
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary btn-sm pull-xs-right"
+                      >
+                        <i className="ion-heart" /> {article.favoritesCount}
                       </button>
                     </div>
                     <a href="" className="preview-link">
@@ -78,4 +81,4 @@ export let Home = () => {
       </div>
     </div>
   );
-};
+}

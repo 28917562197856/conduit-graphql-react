@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { Link } from "@reach/router";
-import { useKy } from "../../hooks/useKy";
-import { UserContext } from "../../App";
+import useKy from "../../hooks/useKy";
+import { TokenContext } from "../../App";
 
-export let Header = () => {
-  let userContext = useContext(UserContext);
+export default function Header() {
+  let tokenContext = useContext(TokenContext);
   let { data, loading } = useKy("/user", "get", {
     credentials: true,
-    token: userContext.token
+    token: tokenContext.token
   });
   return (
     <nav className="navbar navbar-light">
@@ -37,7 +37,8 @@ export let Header = () => {
                   : "nav-link"
               }
             >
-              <i className="ion-compose"></i>&nbsp;New Article
+              <i className="ion-compose" />
+              &nbsp;New Article
             </Link>
           </li>
           <li className="nav-item">
@@ -49,7 +50,8 @@ export let Header = () => {
                   : "nav-link"
               }
             >
-              <i className="ion-gear-a"></i>&nbsp;Settings
+              <i className="ion-gear-a" />
+              &nbsp;Settings
             </Link>
           </li>
           <li className="nav-item">
@@ -72,4 +74,4 @@ export let Header = () => {
       </div>
     </nav>
   );
-};
+}

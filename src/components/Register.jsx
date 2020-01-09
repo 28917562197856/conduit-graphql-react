@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { navigate } from "@reach/router";
-import { UserContext } from "../App";
 import ky from "ky";
+import { TokenContext } from "../App";
 
-export let Register = () => {
+export default function Register() {
   let { register, handleSubmit } = useForm();
-  let user = useContext(UserContext);
+  let tokenContext = useContext(TokenContext);
 
   async function onSubmit(data) {
     let res = await ky
@@ -20,7 +20,7 @@ export let Register = () => {
       })
       .json();
     console.log(res);
-    user.setToken(res.token);
+    tokenContext.setToken(res.token);
     navigate("/");
   }
 
@@ -51,4 +51,4 @@ export let Register = () => {
       </form>
     </div>
   );
-};
+}
